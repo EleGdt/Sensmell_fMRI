@@ -1,0 +1,90 @@
+{
+  "Name": "Olfa univariate subject-level GLM (with subject-level condition contrasts)",
+  "BIDSModelVersion": "1.0.0",
+  "Description": "Run-level GLM with 2 conditions (Olfa, NonOlfa) + motion nuisance regressors. Subject-level model computes (a) condition-wise effects (Olfa, NonOlfa) and (b) condition contrasts (Olfa vs NonOlfa).",
+  "Input": {
+    "task": ["olfaPictures"],
+    "space": ["IXI549Space"]
+  },
+  "Nodes": [
+    {
+      "Level": "Run",
+      "Name": "run_level",
+      "GroupBy": ["subject", "run"],
+      "Model": {
+        "Type": "glm",
+        "X": [
+          "trial_type.Olfa",
+          "trial_type.NonOlfa",
+          "trial_type.response",
+          "trial_type.target",
+          "trans_x",
+          "trans_y",
+          "trans_z",
+          "rot_x",
+          "rot_y",
+          "rot_z"
+        ],
+        "HRF": {
+          "Variables": ["trial_type.Olfa", "trial_type.NonOlfa","trial_type.response","trial_type.target"],
+          "Model": "spm"
+        },
+        "Options": {
+          "HighPassFilterCutoffHz":0.00625
+        }
+      },
+      "DummyContrasts": {
+        "Test": "t",
+        "Contrasts": ["trial_type.Olfa", "trial_type.NonOlfa"]
+      }
+    },
+    {
+      "Level": "Subject",
+      "Name": "subject_level",
+      "GroupBy": ["subject", "contrast"],
+      "Model": {
+        "Type": "glm",
+        "X": [1]
+      },
+      "Contrasts": [
+        {
+          "Name": "Olfa",
+          "ConditionList": ["trial_type.Olfa"],
+          "Weights": [1],
+          "Test": "t"
+        },
+        {
+          "Name": "NonOlfa",
+          "ConditionList": ["trial_type.NonOlfa"],
+          "Weights": [1],
+          "Test": "t"
+        },
+          {
+          "Name": "Olfa_and_NonOlfa",
+          "ConditionList": ["trial_type.Olfa","trial_type.NonOlfa"],
+          "Weights": [0.5, 0.5],
+          "Test": "t"
+        },
+
+        {
+          "Name": "Olfa_gt_NonOlfa",
+          "ConditionList": ["trial_type.Olfa", "trial_type.NonOlfa"],
+          "Weights": [1, -1],
+          "Test": "t"
+        },
+        {
+          "Name": "NonOlfa_gt_Olfa",
+          "ConditionList": ["trial_type.Olfa", "trial_type.NonOlfa"],
+          "Weights": [-1, 1],
+          "Test": "t"
+        }
+      ]
+    }
+  ],
+  "Edges": [
+    {
+      "Source": "run_level",
+      "Destination": "subject_level"
+    }
+  ]
+}
