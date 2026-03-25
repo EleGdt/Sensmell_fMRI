@@ -9,7 +9,7 @@ function opt = getOptionMvpa()
   end
 
   % suject to run in each group
-  opt.subjects = {'pil001'};
+  opt.subjects = {'001'}; % On run un à la fois? 
          
   % Uncomment the lines below to run preprocessing
   % - don't use realign and unwarp
@@ -20,14 +20,14 @@ function opt = getOptionMvpa()
 
   % The directory where the data are located
   opt.pathOutput = fullfile(fileparts(mfilename('fullpath')),'..', '..','outputs','derivatives',...
-      'mvpa_decoding');
+      'mvpa_decoding'); % créer un rep mvpa_decoding avec les résultats 
   
   % multivariate
   opt.model.file = fullfile(fileparts(mfilename('fullpath')), '..', ...
-                            'model', 'model-thermoSocogForMvpa_smdl.json'); 5 the one in b_ex_multivar
+                            'model', 'model-olfa_smdl_pictures_HP160.json'); % the one in b_ex_multivar
   
   % task to analyze
-  opt.taskName = 'thermoSocog';
+  opt.taskName = 'olfaPictures'; %or olfaWords
 
   opt.parallelize.do = false;
   opt.parallelize.nbWorkers = 1;

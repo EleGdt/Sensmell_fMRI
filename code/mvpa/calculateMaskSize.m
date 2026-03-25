@@ -1,9 +1,9 @@
 function maskVoxel = calculateMaskSize(opt)
 
-% conditions are named 'OlfaWord', 'NonOlfaWord', 'OlfaPicture', 'NonOlfaPicture' %ici je mets quoi? Condition tsv OU celles du labelfold? 
+% conditions are named 'OlfaWord', 'NonOlfaWord', 'OlfaPicture', 'NonOlfaPicture' 
 
 
-% classify 'HDPT+HUPT_vs_HDFW+HUFW','HUPT+HDFW_vs_HDPT+HUFW'
+% classify 'OlfaWord_vs_NonOlfaWord','OlfaPicture_vs_NonOlfaPicture'
 
   % get the smoothing parameter for 4D map
   funcFWHM = opt.funcFWHM;
@@ -19,9 +19,9 @@ function maskVoxel = calculateMaskSize(opt)
   %% MVPA options
 
   % set cosmo mvpa structure
-%   condLabelNb = [1 2 ];
-  condLabelName = {'Olfa*bf(1)', 'NonOlfa*bf(1)'};
-  decodingConditionList = {'Olfa*bf(1)_vs_NonOlfa*bf(1)'};
+%   condLabelNb = [1 2 3 4];
+  condLabelName = {'OlfaWord', 'NonOlfaWord', 'OlfaPicture','NonOlfaPicture'};
+  decodingConditionList = {'OlfaWord_vs_NonOlfaWord'}; % or OlfaPicture_vs_NonOlfaPicture
 
   %% let's get going!
 

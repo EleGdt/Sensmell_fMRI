@@ -5,12 +5,12 @@ warning('off');
 addpath(genpath('/Users/giraudet/Documents/MATLAB/spm12'));
 
 % cosmo
-cosmo = '~/Users/giraudet/MATLAB/CoSMoMVPA-master'; % ici vérifier
+cosmo = '/Users/giraudet/MATLAB/CoSMoMVPA-master'; % correct path 
 addpath(genpath(cosmo));
 cosmo_warning('once');
 
 % libsvm
-libsvm = '~/Users/giraudet/MATLAB/libsvm'; % vérifier path
+libsvm = '/Users/giraudet/MATLAB/libsvm-3.36/matlab'; % correct path
 addpath(genpath(libsvm));
 % verify it worked.
 cosmo_check_external('libsvm'); % should not give an error
