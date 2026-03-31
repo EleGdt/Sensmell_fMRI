@@ -1,0 +1,57 @@
+{
+  "Name": "Olfa run-level condition-only GLM for MVPA",
+  "BIDSModelVersion": "1.0.0",
+  "Description": "Run-level GLM producing condition-wise effects (Olfa, NonOlfa) for each run only, for MVPA/decoding. Includes motion nuisance regressors only.",
+  "Input": {
+    "task": ["olfaPictures"],
+    "space": ["IXI549Space"]
+  },
+  "Nodes": [
+    {
+      "Level": "Run",
+      "Name": "run_level",
+      "GroupBy": ["subject", "run"],
+      "Model": {
+        "Type": "glm",
+        "X": [
+          "trial_type.olfaPictures",
+          "trial_type.nonOlfaPictures",
+          "trial_type.response",
+          "trial_type.target",
+          "trans_x",
+          "trans_y",
+          "trans_z",
+          "rot_x",
+          "rot_y",
+          "rot_z"
+        ],
+        "HRF": {
+          "Variables": [
+            "trial_type.olfaPictures",
+            "trial_type.nonOlfaPictures",
+            "trial_type.response",
+            "trial_type.target"
+
+          ],
+          "Model": "spm"
+        },
+        "Software": {
+          "SPM": {
+            "SerialCorrelation": "FAST",
+            "InclusiveMaskingThreshold": 0.8
+          }
+        },
+        "Options": {
+          "HighPassFilterCutoffHz": 0.00625
+        }
+      },
+      "DummyContrasts": {
+        "Test": "t",
+        "Contrasts": [
+          "trial_type.olfaPictures",
+          "trial_type.nonOlfaPictures"
+        ]
+      }
+    }
+  ]
+}
